@@ -76,11 +76,12 @@ function hasProductionCallback(item: LaneItem) {
 function cleanUpDeadCards(G: State) {
     G.lanes.forEach(
         (lane, l) => lane.rows.filter(
-            (item) => item && item.strength.value === 0
-        ).forEach(
-            (_, r) => G.lanes[l].rows[r] = null
-        )
-    )
+            (item, r) => {
+                if (item && item.strength.value === 0) {
+                    G.lanes[l].rows[r] = null
+                }
+            }
+        ))
 }
 
 export function produceIncome({ G }: FnContext<State>): ReturnType<MoveFn> {
@@ -101,7 +102,7 @@ export function produceIncome({ G }: FnContext<State>): ReturnType<MoveFn> {
                 break
             case ProductionCallbackId.Produce:
                 let site = callback as SiteCardType
-                if (callback.productionCallbackProps 
+                if (callback.productionCallbackProps
                     && site.strength.value >= callback.productionCallbackProps.value) {
                     site.strength.value -= callback.productionCallbackProps.value
 
