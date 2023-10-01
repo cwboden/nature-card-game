@@ -1,9 +1,11 @@
 import { Amount, Resource } from "../../types";
 import { CardModel, Describable } from "../models";
-import {DEN, GAIA_PNEUMA, JUNGLE, NURSERY, THICKET} from "./constants"
+import {BURROW, GAIA_PNEUMA, FOREST, NURSERY, THICKET, JUNGLE} from "./constants"
 
 export enum SiteId {
+    Forest,
     Jungle,
+    Burrow,
     Den,
     GaiaPneuma,
     Nursery,
@@ -19,10 +21,12 @@ export interface SiteModel extends Describable {
 
 export function getSiteById(id: SiteId) {
     switch (id) {
+        case SiteId.Forest:
+            return FOREST
         case SiteId.Jungle:
             return JUNGLE
-        case SiteId.Den:
-            return DEN
+        case SiteId.Burrow:
+            return BURROW
         case SiteId.GaiaPneuma:
             return GAIA_PNEUMA
         case SiteId.Nursery:

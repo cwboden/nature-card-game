@@ -1,4 +1,4 @@
-import { DEN, GAIA_PNEUMA, JUNGLE, NURSERY, SiteCardType } from "../../cards/sites/constants";
+import { BURROW, GAIA_PNEUMA, FOREST, NURSERY, SiteCardType } from "../../cards/sites/constants";
 import { HUNTER } from "../../cards/enemy/constants";
 import { EnemyCardType } from "../../cards/enemy/models";
 
@@ -9,8 +9,8 @@ export interface Lane {
 }
 
 export const STARTING_BOARD: Lane[] = [
-    { rows: [ JUNGLE, null, null, HUNTER ] },
+    { rows: [ FOREST, null, null, HUNTER ] },
     { rows: [ GAIA_PNEUMA, null, null, null ] },
     { rows: [ NURSERY, null, null, null ] },
-    { rows: [ DEN, null, null, null ] },
+    { rows: [ BURROW, null, null, null ] },
 ]

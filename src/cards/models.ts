@@ -15,8 +15,4 @@ export interface Describable {
   description: string
 }
 
-export interface IncomeProducer {
-  amountToProduce: Amount | null
-}
-
-export interface CardModel extends Descriminated, Describable, IncomeProducer { }
+export interface CardModel extends Descriminated, Describable { }

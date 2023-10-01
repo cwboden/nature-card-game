@@ -26,6 +26,8 @@ export function emojify(resource: Resource): string {
             return "🌱"
         case Resource.Soul:
             return "💖"
+        case Resource.Destruction:
+            return "🤛"
     }
 }
 

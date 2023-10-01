@@ -6,9 +6,10 @@ interface ResourceTrackerProps {
   resources: Amount[]
   year: number
   numCardsInDeck: number
+  numActionsRemaining: number
 }
 
-export const ResourceTracker: React.FC<ResourceTrackerProps> = ({ resources, year, numCardsInDeck }) =>
+export const ResourceTracker: React.FC<ResourceTrackerProps> = ({ resources, year, numCardsInDeck, numActionsRemaining }) =>
   <div className="flex flex-row gap-2 font-medium align-middle">
     {
       resources.map((amount) => {
@@ -19,6 +20,7 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({ resources, yea
         )
       })
     }
-    <span className='inline-block rounded-sm px-5 text-center bg-primary-400'>Year {year}</span>
-    <span className='inline-block rounded-sm px-5 text-center bg-primary-400'>Cards in Deck: {numCardsInDeck}</span>
+    <span className='inline-block rounded-sm px-5 text-center'>Year {year}</span>
+    <span className='inline-block rounded-sm px-5 text-center'>Cards in Deck: {numCardsInDeck}</span>
+    <span className='inline-block rounded-sm px-5 text-center'>Actions Remaining: {3 - numActionsRemaining}</span>
   </div>

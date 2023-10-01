@@ -3,7 +3,8 @@ import { MoveFn } from "boardgame.io"
 export enum Resource {
     Animal,
     Plant,
-    Soul
+    Soul,
+    Destruction,
 }
 
 export interface Amount {

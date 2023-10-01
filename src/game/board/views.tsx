@@ -73,7 +73,7 @@ const CardOnBoard: React.FC<CardOnBoardProps> = ({ onSelectSlot, card, isHighlig
 
 interface Props extends BoardProps<State> { }
 
-export const Board = ({ G, ctx, moves }: Props) => {
+export const Board = ({ G, ctx, moves, undo, redo }: Props) => {
   const [selectedCoordinate, setSelectedCoordinate] = useState<Coordinate | null>(null)
   const [selectedHandId, setSelectedHandId] = useState<number | null>(null)
   const [canTryPlayCard, setCanTryPlayCard] = useState<boolean>(false)
@@ -104,7 +104,14 @@ export const Board = ({ G, ctx, moves }: Props) => {
                 let coordinate: Coordinate = { lane: l, row: r }
                 let isSelected = selectedCoordinate?.lane == coordinate.lane
                   && selectedCoordinate?.row == coordinate.row
-                let onSelectSlot = () => setSelectedCoordinate(coordinate)
+                let onSelectSlot = () => {
+                  // Toggle / Untoggle
+                  if (isSelected) {
+                    setSelectedCoordinate(null)
+                  } else {
+                    setSelectedCoordinate(coordinate)
+                  }
+                }
 
                 if (item) {
                   switch (item.cardType) {
@@ -127,7 +134,14 @@ export const Board = ({ G, ctx, moves }: Props) => {
           }
         </div>
 
-        <Hand selectedId={selectedHandId} cards={G.hand} onSelectCard={setSelectedHandId} />
+        <Hand selectedId={selectedHandId} cards={G.hand} onSelectCard={(id) => {
+          // Toggle / Untoggle
+          if (selectedHandId === id) {
+            setSelectedHandId(null)
+          } else {
+            setSelectedHandId(id)
+          }
+        }} />
 
         <button
           className="bg-blue-800"
@@ -141,7 +155,7 @@ export const Board = ({ G, ctx, moves }: Props) => {
           Confirm
         </button>
 
-        <ResourceTracker resources={G.resources} year={ctx.turn} numCardsInDeck={G.deck.length} />
+        <ResourceTracker resources={G.resources} year={ctx.turn} numCardsInDeck={G.deck.length} numActionsRemaining={ctx.numMoves ?? 0}/>
 
         <div className='flex flex-row gap-2'>
           <button
@@ -157,8 +171,9 @@ export const Board = ({ G, ctx, moves }: Props) => {
             Draw Card
           </button>
           <button
-            className={isInvaderPhase ? 'opacity-50' : ''}
-            disabled={isInvaderPhase}
+            className={(selectedCoordinate === null || isInvaderPhase) ? 'opacity-50' : ''}
+            disabled={(selectedCoordinate === null || isInvaderPhase)}
+            title={(selectedCoordinate === null) ? "Select an Enemy first" : undefined}
             onClick={() => {
               moves.attackEnemy(selectedCoordinate)
               setSelectedCoordinate(null)
@@ -166,18 +181,17 @@ export const Board = ({ G, ctx, moves }: Props) => {
             Unleash the Wild [4{emojify(Resource.Animal)}]
           </button>
           <button
-            className={isInvaderPhase ? 'opacity-50' : ''}
-            disabled={isInvaderPhase}
-            onClick={() => {
-              moves.createBlockade(selectedCoordinate)
-              setSelectedCoordinate(null)
-            }}>
-            Overgrowth [4{emojify(Resource.Plant)}]
-          </button>
-          <button
             hidden={!isInvaderPhase}
             className="bg-red-800" onClick={() => moves.advanceEnemies()}>
             Advance Invaders
+          </button>
+        </div>
+        <div className='flex flex-row gap-2'>
+          <button onClick={() => undo()} >
+            Undo
+          </button>
+          <button onClick={() => redo()} >
+            Redo
           </button>
         </div>
       </div>

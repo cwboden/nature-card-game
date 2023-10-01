@@ -9,8 +9,8 @@ export const LUMBERJACK: EnemyCardType = {
     title: "Lumberjack",
     description: `+1 vs. ${emojify(Resource.Plant)}`,
 
-    strength: 2,
-    bonus: { value: 1, resource: Resource.Animal}
+    strength: { value: 2, resource: Resource.Destruction },
+    bonus: { value: 1, resource: Resource.Plant}
 }
 
 export const HUNTER: EnemyCardType = {
@@ -19,8 +19,18 @@ export const HUNTER: EnemyCardType = {
     title: "Hunter",
     description: `+1 vs. ${emojify(Resource.Animal)}`,
 
-    strength: 2,
+    strength: { value: 2, resource: Resource.Destruction },
     bonus: { value: 1, resource: Resource.Animal}
+}
+
+export const TRAPPER: EnemyCardType = {
+    id: EnemyId.Trapper,
+    cardType: CardType.Enemy,
+    title: "Trapper",
+    description: `-1${emojify(Resource.Animal)}`,
+
+    strength: { value: 2, resource: Resource.Destruction },
+    bonus: null
 }
 
 export const ENEMIES = [LUMBERJACK, HUNTER]
@@ -32,4 +42,12 @@ export const WAVES = [
     [null, null, null, LUMBERJACK],
     [null, null, HUNTER, LUMBERJACK],
     [null, null, HUNTER, LUMBERJACK],
+    [null, LUMBERJACK, HUNTER, LUMBERJACK],
+    [null, HUNTER, HUNTER, LUMBERJACK],
+    [null, LUMBERJACK, LUMBERJACK, LUMBERJACK],
+    [null, HUNTER, HUNTER, HUNTER],
+    [HUNTER, LUMBERJACK, HUNTER, LUMBERJACK],
+    [LUMBERJACK, HUNTER, HUNTER, LUMBERJACK],
+    [HUNTER, HUNTER, HUNTER, HUNTER],
+    [LUMBERJACK, LUMBERJACK, LUMBERJACK, LUMBERJACK],
 ]

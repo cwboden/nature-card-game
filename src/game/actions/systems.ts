@@ -2,7 +2,7 @@ import { CARDS } from "../../cards/constants";
 import { ENEMIES } from "../../cards/enemy/constants";
 import { EnemyCardType } from "../../cards/enemy/models";
 import { CardType } from "../../cards/models";
-import { SiteCardType } from "../../cards/sites/constants";
+import { DamagedCallback, DamagedCallbackId, SiteCardType } from "../../cards/sites/constants";
 import { Amount, Coordinate } from "../../types";
 import { Lane } from "../board/models";
 import { State } from "../models";
@@ -14,7 +14,29 @@ export function tryProduceIncome(G: State, amount: Amount | null) {
     }
 }
 
-function performBattleInLane(lane: Lane) {
+function hasDamagedCallback(friendly: SiteCardType) {
+    // Hacky type-checking. Use descriminator if needed
+    return "damagedCallbackId" in friendly
+        && (friendly as unknown as DamagedCallback).damagedCallbackId
+}
+
+function removeRandomElementFrom<T>(arr: T[]) {
+    let index = Math.floor(Math.random() * arr.length)
+    arr.splice(index, 1)
+}
+
+function executeDamagedCallback(G: State, callbackId: DamagedCallbackId, enemy: EnemyCardType) {
+    switch (callbackId) {
+        case DamagedCallbackId.DealOneDamage:
+            enemy.strength.value -= 1
+        case DamagedCallbackId.LoseCardFromDeck:
+            removeRandomElementFrom(G.deck)
+        case DamagedCallbackId.LoseCardFromHand:
+            removeRandomElementFrom(G.hand)
+    }
+}
+
+function performBattleInLane(G: State, lane: Lane) {
     let enemyIndex = lane.rows.findIndex((item) => item && item.cardType === CardType.Enemy)
 
     if (enemyIndex) {
@@ -24,22 +46,18 @@ function performBattleInLane(lane: Lane) {
         if (friendly && friendly.cardType === CardType.Site) {
             console.log(`BATTLE: ${JSON.stringify(enemy)} attacks ${JSON.stringify(friendly)}`)
 
-            friendly.strength.value -= enemy.strength
-            if (friendly.strength.resource === enemy.bonus.resource) {
+            friendly.strength.value -= enemy.strength.value
+            if (friendly.strength.resource === enemy.bonus?.resource) {
                 friendly.strength.value -= enemy.bonus.value
             }
-            enemy.strength -= friendly.strength.value
-
-            if (friendly.strength.value <= 0) {
-                lane.rows[friendlyIndex] = null
-            }
-            if (enemy.strength <= 0) {
-                lane.rows[enemyIndex] = null
+            enemy.strength.value -= friendly.strength.value
+            if (hasDamagedCallback(friendly)) {
+                executeDamagedCallback(G, (friendly as unknown as DamagedCallback).damagedCallbackId!!, enemy)
             }
         }
     }
 }
 
 export function performBattles(G: State) {
-    G.lanes.forEach(performBattleInLane)
+    G.lanes.forEach((lane) => performBattleInLane(G, lane))
 }
