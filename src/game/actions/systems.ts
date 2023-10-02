@@ -1,5 +1,3 @@
-import { CARDS } from "../../cards/constants";
-import { ENEMIES } from "../../cards/enemy/constants";
 import { EnemyCardType } from "../../cards/enemy/models";
 import { CardType } from "../../cards/models";
 import { DamagedCallback, DamagedCallbackId, SiteCardType } from "../../cards/sites/constants";
@@ -50,7 +48,9 @@ function performBattleInLane(G: State, lane: Lane) {
             if (friendly.strength.resource === enemy.bonus?.resource) {
                 friendly.strength.value -= enemy.bonus.value
             }
-            enemy.strength.value -= friendly.strength.value
+            if (friendly.strength.value >= 0) {
+                enemy.strength.value -= friendly.strength.value
+            }
             if (hasDamagedCallback(friendly)) {
                 executeDamagedCallback(G, (friendly as unknown as DamagedCallback).damagedCallbackId!!, enemy)
             }

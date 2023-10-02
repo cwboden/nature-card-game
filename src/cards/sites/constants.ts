@@ -1,4 +1,3 @@
-import { State } from "../../game/models";
 import { Amount, Resource } from "../../types";
 import { CardModel, CardType } from "../models";
 import { SiteId, SiteModel } from "./models";

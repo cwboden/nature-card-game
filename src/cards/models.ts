@@ -1,5 +1,3 @@
-import { State } from "../game/models"
-import { Amount } from "../types"
 
 export enum CardType {
     Site,

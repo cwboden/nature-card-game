@@ -77,7 +77,7 @@ function cleanUpDeadCards(G: State) {
     G.lanes.forEach(
         (lane, l) => lane.rows.filter(
             (item, r) => {
-                if (item && item.strength.value === 0) {
+                if (item && item.strength.value <= 0) {
                     G.lanes[l].rows[r] = null
                 }
             }

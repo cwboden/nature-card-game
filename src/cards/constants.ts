@@ -1,4 +1,4 @@
-import { BURROW, GAIA_PNEUMA, FOREST, NURSERY, THICKET, MEADOW } from "./sites/constants"
+import { BURROW, FOREST, THICKET, MEADOW, JUNGLE, DEN } from "./sites/constants"
 import { CardModel } from "./models"
 
 interface CardCount {
@@ -15,6 +15,6 @@ export const DECK: CardModel[] = deckFromCardCounts([
   { count: 3, card: BURROW },
   { count: 3, card: THICKET },
   { count: 3, card: MEADOW },
+  { count: 2, card: JUNGLE },
+  { count: 2, card: DEN },
 ])
-
-export const CARDS = [ FOREST, BURROW, GAIA_PNEUMA, NURSERY, THICKET ]

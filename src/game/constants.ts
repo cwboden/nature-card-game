@@ -27,7 +27,7 @@ const loseCondition = (G: State, ctx: Ctx) => {
 }
 
 const winCondition = (ctx: Ctx) => {
-    const TURNS_TO_WIN = 30
+    const TURNS_TO_WIN = 31
     return ctx.turn === TURNS_TO_WIN
 }
 

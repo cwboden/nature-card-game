@@ -1,6 +1,5 @@
-import { LaneSlotElementProps } from "../../game/board/views"
 import { Amount } from "../../types"
-import { CardModel, Describable, Descriminated } from "../models"
+import { Describable, Descriminated } from "../models"
 import { HUNTER, LUMBERJACK } from "./constants"
 
 export enum EnemyId {

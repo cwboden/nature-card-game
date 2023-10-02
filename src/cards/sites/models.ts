@@ -1,5 +1,5 @@
-import { Amount, Resource } from "../../types";
-import { CardModel, Describable } from "../models";
+import { Amount } from "../../types";
+import { Describable } from "../models";
 import {BURROW, GAIA_PNEUMA, FOREST, NURSERY, THICKET, JUNGLE} from "./constants"
 
 export enum SiteId {

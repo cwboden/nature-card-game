@@ -1,16 +1,16 @@
-import React, { MouseEventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BoardProps } from 'boardgame.io/react';
 import { GameOverState, State } from '../models';
 import { Coordinate, Resource } from '../../types';
 import { LaneItem } from './models';
 import { Hand } from '../hand/views';
 import { ResourceTracker } from '../resource-tracker/views';
-import { CardModel, CardType } from '../../cards/models';
+import { CardType } from '../../cards/models';
 import { HighlightableButton } from '../../components';
 import { SiteModel } from '../../cards/sites/models';
 import { emojify, stringify } from '../../utils';
 import { SiteCardType } from '../../cards/sites/constants';
-import { EnemyCardType, EnemyModel } from '../../cards/enemy/models';
+import { EnemyCardType } from '../../cards/enemy/models';
 import { Enemy } from '../../cards/enemy/views';
 import { Phases } from '../moves/constants';
 
@@ -155,7 +155,7 @@ export const Board = ({ G, ctx, moves, undo, redo }: Props) => {
           Confirm
         </button>
 
-        <ResourceTracker resources={G.resources} year={ctx.turn} numCardsInDeck={G.deck.length} numActionsRemaining={ctx.numMoves ?? 0}/>
+        <ResourceTracker resources={G.resources} year={ctx.turn} numCardsInDeck={G.deck.length} numActionsRemaining={ctx.numMoves ?? 0} />
 
         <div className='flex flex-row gap-2'>
           <button
@@ -193,6 +193,9 @@ export const Board = ({ G, ctx, moves, undo, redo }: Props) => {
           <button onClick={() => redo()} >
             Redo
           </button>
+          <a href="https://github.com/cwboden/nature-card-game/#readme" >
+            <button>How to Play</button>
+          </a>
         </div>
       </div>
     </main>
